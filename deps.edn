@@ -2,7 +2,8 @@
  :paths ["src" "resources"]
  :aliases {
            :test {:extra-paths ["test"]
-                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}}
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}
+                               lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}}
                   :main-opts ["-m" "kaocha.runner"]}
            :build {:deps {io.github.clojure/tools.build {:git/tag "v0.10.0" :git/sha "3a2c484"}}
                    :ns-default build}

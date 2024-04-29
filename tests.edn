@@ -1,2 +1,9 @@
-#kaocha/v1 {
-            :kaocha/reporter kaocha.report/documentation}
+#kaocha/v1
+{:kaocha/reporter kaocha.report/documentation
+ :plugins [:kaocha.plugin/cloverage]
+ :cloverage/opts
+ {:text? false
+  :html? true
+  :low-watermark 50
+  :high-watermark 80
+  :summary? true}}
