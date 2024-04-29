@@ -56,9 +56,9 @@ $ make vuln-scan
 ### CI preflight checks
 
 ```
-$ make ci-quick
+$ make preflight-quick
 ```
 
 ```
-$ make ci-full
+$ make preflight-full
 ```

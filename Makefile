@@ -45,7 +45,7 @@ outdated:
 vuln-scan:
 	clojure -M:clj-watson -p deps.edn
 
-ci-quick: lint cljfmt-check test
+preflight-quick: lint cljfmt-check test
 
-ci-full: lint cljfmt-check test outdated vuln-scan
+preflight-full: lint cljfmt-check test outdated vuln-scan
 
