@@ -25,4 +25,7 @@
          (mockery/with-mocks [io-resource-mock
                               {:target :clojure.java.io/resource
                                :return (constantly nil)}]
-           (config/get-config :some-thing-else))))))
+           (config/get-config :some-thing-else)))))
+  (testing "without mocks"
+    (is (= 8080
+           (get-in (config/get-config) [:web :port])))))
