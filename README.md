@@ -4,6 +4,8 @@ REST microservice that provides search capabilities on AlienVault OTX intelligen
 
 ## Usage
 
+### Build and run
+
 Build uberjar and run locally:
 ```
 $ make uber run
@@ -40,4 +42,13 @@ $ make test
 
 ```
 $ make outdated
+```
+
+### Scan dependencies for security vulnerabilities
+
+Caveat:  This can be pretty slow on the first run.  It needs to
+build a database of vulnerabilities.  Can take well over 10 minutes.
+
+```
+$ make vuln-scan
 ```
