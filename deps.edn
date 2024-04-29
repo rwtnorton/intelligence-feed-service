@@ -23,4 +23,8 @@
   :outdated     {:deps      {com.github.liquidz/antq {:mvn/version "RELEASE"}}
                  :main-opts ["-m" "antq.core"]
                  ;; Silence SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder"
-                 :extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.13"}}}}}
+                 :extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.13"}}}
+  :clj-watson {:replace-deps
+               {io.github.clj-holmes/clj-watson
+                {:git/tag "v5.1.2" :git/sha "ae20e1e"}}
+               :main-opts ["-m" "clj-watson.cli" "scan"]}}}

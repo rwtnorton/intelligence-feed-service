@@ -3,13 +3,13 @@ uberfile := target/intelligence-feed-service-$(version)-standalone.jar
 docker_tag := intelligence-feed-service-$(version)
 
 uber:
-	clj -T:build uber
+	clojure -T:build uber
 
 run: $(uberfile)
 	java -jar $(uberfile)
 
 clean:
-	clj -T:build clean
+	clojure -T:build clean
 
 docker-build:
 	docker build -t $(docker_tag) .
@@ -17,23 +17,27 @@ docker-build:
 docker-run: docker-build
 	docker run $(docker_tag)
 
-.PHONY: version uberfile test lint cljfmt-fix cljfmt-check
+.PHONY: version uberfile test lint cljfmt-fix cljfmt-check outdated vuln-scan
 version:
 	@echo Found version $(version)
 uberfile:
 	@echo $(uberfile)
 
 test:
-	clj -M:test
+	clojure -M:test
 
 lint:
-	clj -M:clj-kondo --lint src --lint test
+	clojure -M:clj-kondo --lint src --lint test
 
 cljfmt-fix:
-	clj -Mcljfmt-fix
+	clojure -Mcljfmt-fix
 
 cljfmt-check:
-	clj -Mcljfmt-check
+	clojure -Mcljfmt-check
 
 outdated:
-	clj -M:outdated
+	clojure -M:outdated
+
+# This can be slow on the first run (> 10 minutes).
+vuln-scan:
+	clojure -M:clj-watson -p deps.edn
