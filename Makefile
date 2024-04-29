@@ -17,7 +17,7 @@ docker_build:
 docker_run: docker_build
 	docker run $(docker_tag)
 
-.PHONY: version uberfile test lint
+.PHONY: version uberfile test lint cljfmt-fix cljfmt-check
 version:
 	@echo Found version $(version)
 uberfile:
@@ -28,3 +28,9 @@ test:
 
 lint:
 	clj -M:clj-kondo --lint src
+
+cljfmt-fix:
+	clj -Mcljfmt-fix
+
+cljfmt-check:
+	clj -Mcljfmt-check
