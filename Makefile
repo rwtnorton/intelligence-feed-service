@@ -11,10 +11,10 @@ run: $(uberfile)
 clean:
 	clj -T:build clean
 
-docker_build:
+docker-build:
 	docker build -t $(docker_tag) .
 
-docker_run: docker_build
+docker-run: docker-build
 	docker run $(docker_tag)
 
 .PHONY: version uberfile test lint cljfmt-fix cljfmt-check

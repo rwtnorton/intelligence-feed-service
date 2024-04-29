@@ -11,11 +11,27 @@ $ make uber run
 
 Build and run in Docker:
 ```
-$ make docker_build docker_run
+$ make docker-build docker-run
 ```
 
 ### Linting
 
 ```
 $ make lint
+```
+
+### Formatting
+
+```
+$ make cljfmt-check
+```
+
+```
+$ make cljfmt-fix
+```
+
+### Testing
+
+```
+$ make test
 ```

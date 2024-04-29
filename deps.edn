@@ -1,16 +1,19 @@
-{:deps {}
+{:deps
+ {com.stuartsierra/component   {:mvn/version "1.1.0"}
+  io.pedestal/pedestal.service {:mvn/version "0.7.0-beta-1"}}
+
  :paths ["src" "resources"]
- :aliases {
-           :test {:extra-paths ["test"]
-                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}
+
+ :aliases
+ {:test         {:extra-paths ["test"]
+                 :extra-deps  {lambdaisland/kaocha           {:mvn/version "1.87.1366"}
                                lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}}
-                  :main-opts ["-m" "kaocha.runner"]}
-           :build {:deps {io.github.clojure/tools.build {:git/tag "v0.10.0", :git/sha "3a2c484"}}
-                   :ns-default build}
-           :clj-kondo {:replace-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
-                       :main-opts ["-m" "clj-kondo.main"]}
-           :cljfmt-check {:extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}
-                          :main-opts ["--main" "cljfmt.main" "check"]}
-           :cljfmt-fix {:extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}
-                        :main-opts ["--main" "cljfmt.main" "fix"]}
-           }}
+                 :main-opts   ["-m" "kaocha.runner"]}
+  :build        {:deps       {io.github.clojure/tools.build {:git/tag "v0.10.0", :git/sha "3a2c484"}}
+                 :ns-default build}
+  :clj-kondo    {:replace-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
+                 :main-opts    ["-m" "clj-kondo.main"]}
+  :cljfmt-check {:extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}
+                 :main-opts  ["--main" "cljfmt.main" "check"]}
+  :cljfmt-fix   {:extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}
+                 :main-opts  ["--main" "cljfmt.main" "fix"]}}}
