@@ -11,7 +11,7 @@ $ make uber run
 
 Build and run in Docker:
 ```
-$ make docker-build docker-run
+$ make uber docker-build docker-run
 ```
 
 ### Linting
