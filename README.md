@@ -13,3 +13,9 @@ Build and run in Docker:
 ```
 $ make docker_build docker_run
 ```
+
+### Linting
+
+```
+$ make lint
+```
