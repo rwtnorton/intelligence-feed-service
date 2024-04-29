@@ -35,3 +35,9 @@ $ make cljfmt-fix
 ```
 $ make test
 ```
+
+### Check for outdated dependencies
+
+```
+$ make outdated
+```

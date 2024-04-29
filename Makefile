@@ -34,3 +34,6 @@ cljfmt-fix:
 
 cljfmt-check:
 	clj -Mcljfmt-check
+
+outdated:
+	clj -M:outdated
