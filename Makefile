@@ -17,7 +17,10 @@ docker-build:
 docker-run: docker-build
 	docker run $(docker_tag)
 
-.PHONY: version uberfile test lint cljfmt-fix cljfmt-check outdated vuln-scan
+.PHONY: version uberfile \
+        test lint \
+        cljfmt-fix cljfmt-check \
+        outdated vuln-scan
 version:
 	@echo Found version $(version)
 uberfile:
@@ -41,3 +44,8 @@ outdated:
 # This can be slow on the first run (> 10 minutes).
 vuln-scan:
 	clojure -M:clj-watson -p deps.edn
+
+ci-quick: lint cljfmt-check test
+
+ci-full: lint cljfmt-check test outdated vuln-scan
+

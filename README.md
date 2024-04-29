@@ -52,3 +52,13 @@ build a database of vulnerabilities.  Can take well over 10 minutes.
 ```
 $ make vuln-scan
 ```
+
+### CI preflight checks
+
+```
+$ make ci-quick
+```
+
+```
+$ make ci-full
+```
