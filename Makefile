@@ -27,7 +27,7 @@ test:
 	clj -M:test
 
 lint:
-	clj -M:clj-kondo --lint src
+	clj -M:clj-kondo --lint src --lint test
 
 cljfmt-fix:
 	clj -Mcljfmt-fix

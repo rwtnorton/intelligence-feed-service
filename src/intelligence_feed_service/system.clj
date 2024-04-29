@@ -3,4 +3,5 @@
 
 (defn system
   [env & args]
+  (prn :env env :args args :lol component/system-map)
   :system)
