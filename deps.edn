@@ -1,7 +1,9 @@
 {:deps {}
  :paths ["src" "resources"]
  :aliases {
-           :test {:extra-paths ["test"]}
+           :test {:extra-paths ["test"]
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}}
+                  :main-opts ["-m" "kaocha.runner"]}
            :build {:deps {io.github.clojure/tools.build {:git/tag "v0.10.0" :git/sha "3a2c484"}}
                    :ns-default build}
            :clj-kondo {:replace-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}

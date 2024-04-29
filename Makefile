@@ -17,11 +17,14 @@ docker_build:
 docker_run: docker_build
 	docker run $(docker_tag)
 
-lint:
-	clj -M:clj-kondo --lint src
-
-.PHONY: version uberfile
+.PHONY: version uberfile test lint
 version:
 	@echo Found version $(version)
 uberfile:
 	@echo $(uberfile)
+
+test:
+	clj -M:test
+
+lint:
+	clj -M:clj-kondo --lint src
