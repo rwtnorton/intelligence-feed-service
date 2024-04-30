@@ -15,6 +15,7 @@ Or just run:
 ```
 $ ./scripts/run --help
 $ ./scripts/run --env test
+$ make clean uber && ./scripts/run --env dev
 $ ./scripts/run --config prod_config.edn --env prod
 ```
 

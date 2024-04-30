@@ -84,7 +84,7 @@
                    (sort)
                    (mapv name))]
      ["-E" "--env ENV" (format "environment: %s" envs)
-      :default "prod"
+      :default "dev"
       :parse-fn parse-env
       :validate [#(get env/allowed-envs (keyword %))
                  (format "Must be one of: %s" envs)]])])
