@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -eu
+
+cd "$(dirname $0)"/..
+
+version="$(cat VERSION | tr -d '\n')"
+jarfile="target/intelligence-feed-service-${version}-standalone.jar"
+
+exec java -jar "$jarfile" "$@"

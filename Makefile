@@ -49,3 +49,6 @@ preflight-quick: lint cljfmt-check test
 
 preflight-full: lint cljfmt-check test outdated vuln-scan
 
+foo:
+	@echo "got $(args)"
+	exec java -jar $(uberfile) $(args)

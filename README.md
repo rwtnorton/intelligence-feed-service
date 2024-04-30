@@ -11,6 +11,13 @@ Build uberjar and run locally:
 $ make uber run
 ```
 
+Or just run:
+```
+$ ./scripts/run --help
+$ ./scripts/run --env test
+$ ./scripts/run --config prod_config.edn --env prod
+```
+
 Build and run in Docker:
 ```
 $ make uber docker-build docker-run
