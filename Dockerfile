@@ -1,4 +1,5 @@
-FROM amazoncorretto:21-alpine-jdk
+FROM eclipse-temurin:21-alpine
+# FROM amazoncorretto:21-alpine-jdk
 
 EXPOSE 8080
 
