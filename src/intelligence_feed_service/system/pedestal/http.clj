@@ -1,8 +1,7 @@
 (ns intelligence-feed-service.system.pedestal.http
   (:require [io.pedestal.http :as http]
             [io.pedestal.http.route :as route]
-            [intelligence-feed-service.web :as web]
-            [taoensso.telemere :as logger]))
+            [intelligence-feed-service.web :as web]))
 
 (defmulti start-http (fn [m & _interceptors] (:env m)))
 
@@ -14,7 +13,7 @@
 
 (def dev-map
   (merge common-map
-         { ;; do not block thread that starts web server
+         {;; do not block thread that starts web server
           ::http/join?
           false
 
@@ -37,10 +36,9 @@
             interceptors)))
 
 (defmethod start-http :dev
-  "Starts a Pedestal server for development at a REPL."
+  ;; Starts a Pedestal server for development at a REPL.
   [service-map & interceptors]
-  (logger/log! {:level :info,  :id ::start-http-dev}
-               "Creating your [DEV] server...")
+  (println "\nCreating your [DEV] server...")
   (let [custom-interceptors (with-custom-interceptors interceptors)]
     (-> service-map
         (merge dev-map)
@@ -51,10 +49,9 @@
         http/start)))
 
 (defmethod start-http :test
-  "Starts a Pedestal server for unit and integration testing."
+  ;; Starts a Pedestal server for unit and integration testing.
   [service-map & interceptors]
-  (logger/log! {:level :info, :id ::start-http-test}
-               "Creating your [TEST] server...")
+  (println "\nCreating your [TEST] server...")
   (let [custom-interceptors (with-custom-interceptors interceptors)]
     (-> service-map
         (merge non-dev-map)
@@ -63,10 +60,9 @@
         (http/create-server))))
 
 (defmethod start-http :prod
-  "Starts a Pedestal server appropriate for deployment via uberjar."
+  ;; Starts a Pedestal server appropriate for deployment via uberjar.
   [service-map & interceptors]
-  (logger/log! {:level :info, :id ::start-http-prod}
-               "Creating your [PROD] server...")
+  (println "\nCreating your [PROD] server...")
   (let [custom-interceptors (with-custom-interceptors interceptors)]
     (-> service-map
         (merge non-dev-map)

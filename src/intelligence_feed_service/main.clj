@@ -4,13 +4,14 @@
             [intelligence-feed-service.system :as sys]
             [intelligence-feed-service.system.pedestal.env :as env]
             ;; [markets.web :as web]
-            [reloaded.repl :refer [system
-                                   init
-                                   start
-                                   stop
+            [reloaded.repl :refer [;system
+                                   ;init
+                                   ;start
+                                   ;stop
                                    go
-                                   reset
-                                   reset-all]])
+                                   ;reset
+                                   ;reset-all
+                                   ]])
   (:gen-class))
 
 (declare cli-opts
@@ -22,7 +23,7 @@
 (defn -main
   [& args]
   (let [{:keys [options
-                arguments
+                ;; arguments
                 summary
                 errors]} (parse-opts args cli-opts)
         {:keys [config

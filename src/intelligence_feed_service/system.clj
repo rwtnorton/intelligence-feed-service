@@ -1,6 +1,7 @@
 (ns intelligence-feed-service.system
   (:require [com.stuartsierra.component :as component]
-            [intelligence-feed-service.system.config :as config]))
+            [intelligence-feed-service.system.config :as config]
+            [taoensso.telemere :as logger]))
 
 (defn- resolve-config
   [args]
@@ -25,8 +26,7 @@
   [env sys]
   (fn []
     (when-not (#{:test} env)
-      (println "Shutting down")
-      (flush))
+      (logger/log! {:level :info, :id ::system-shut-down} "Shutting down"))
     (component/stop sys)))
 
 (defn- add-shutdown-hook
