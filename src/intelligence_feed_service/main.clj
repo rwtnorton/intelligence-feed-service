@@ -37,10 +37,12 @@
     (prn :env env')
     (prn :config config)
     (apply (partial run-for-env env') [config])
-    ;; TODO:  remove this
-    (while true
-      (prn :ohai)
-      (Thread/sleep 2000))))
+
+    ;; ;; TODO:  remove this
+    ;; (while true
+    ;;   (prn :ohai)
+    ;;   (Thread/sleep 2000))
+    ))
 
 (defn- exit!
   [n]

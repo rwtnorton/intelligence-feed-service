@@ -3,8 +3,7 @@
             [intelligence-feed-service.system.config :as config]
             [intelligence-feed-service.system.pedestal :as pedestal]
             [intelligence-feed-service.web :as web]
-            [io.pedestal.http :as http]
-            [taoensso.telemere :as logger]))
+            [io.pedestal.http :as http]))
 
 (defn- resolve-config
   [args]
@@ -37,8 +36,9 @@
   [env sys]
   (fn []
     (when-not (#{:test} env)
-      (logger/log! {:level :info, :id ::system-shut-down} "Shutting down"))
-    (component/stop sys)))
+      (println "Shutting down")
+      (flush))
+    (component/stop-system sys)))
 
 (defn- add-shutdown-hook
   [env sys]
