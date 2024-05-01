@@ -19,7 +19,7 @@
                                lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}
                                mockery/mockery               {:mvn/version "0.1.4"}}
                  :main-opts   ["-m" "kaocha.runner"]}
-  :build        {:deps       {io.github.clojure/tools.build {:mvn/version "0.10.1"}}
+  :build        {:deps       {io.github.clojure/tools.build {:mvn/version "0.10.3"}}
                  :ns-default build}
   :clj-kondo    {:replace-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
                  :main-opts    ["-m" "clj-kondo.main"]}
