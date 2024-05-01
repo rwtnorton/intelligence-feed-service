@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+set -eu
+
+cd "$(dirname $0)"/..
+
+version="$(cat VERSION | tr -d '\n')"
+name='intelligence-feed-service'
+docker_tag="${name}-${version}"
+
+host_port="${host_port:-8080}"
+container_port="${container_port:-8080}"
+
+exec docker run \
+    -p "${host_port}:${container_port}" \
+    "$docker_tag" \
+    "$@"

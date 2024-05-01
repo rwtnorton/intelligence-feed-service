@@ -3,4 +3,4 @@ set -eu
 
 cd /app
 
-exec java -jar app.jar "$*"
+exec java -jar app.jar "$@"

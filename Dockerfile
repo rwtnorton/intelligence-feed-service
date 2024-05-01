@@ -1,5 +1,7 @@
 FROM amazoncorretto:21-alpine-jdk
 
+EXPOSE 8080
+
 RUN mkdir -p /app
 
 ADD target/intelligence-feed-service-1.0.0-standalone.jar /app/app.jar

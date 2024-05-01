@@ -16,7 +16,12 @@ Or just run:
 $ ./scripts/run --help
 $ ./scripts/run --env test
 $ make clean uber && ./scripts/run --env dev
-$ ./scripts/run --config prod_config.edn --env prod
+
+### use a different config file:
+$ config=resources/dat-other-config.edn ./scripts/run --env prod
+
+### use a different port:
+$ server_port=8778 ./scripts/run --env dev
 ```
 
 Build and run in Docker:

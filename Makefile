@@ -5,6 +5,7 @@ docker_tag := intelligence-feed-service-$(version)
 uber:
 	clojure -T:build uber
 
+# Note:  scripts/run is more flexible!
 run: $(uberfile)
 	java -jar $(uberfile)
 
@@ -49,6 +50,3 @@ preflight-quick: lint cljfmt-check test
 
 preflight-full: lint cljfmt-check test outdated vuln-scan
 
-foo:
-	@echo "got $(args)"
-	exec java -jar $(uberfile) $(args)
