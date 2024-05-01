@@ -20,9 +20,8 @@
       (let [r (repo->interceptor repo)
             m service-map
             d #(update % ::http/interceptors conj r)
-            s (service.http/start-http m d)]
-        (logger/log! {:level :info, :id ::pedestal-connect}
-                     (conn-msg m))
+            s (do (println (conn-msg m)) (flush)
+                  (service.http/start-http m d))]
         (assoc this
                :service s
                :service-map m
@@ -31,8 +30,7 @@
     (when (and service
                (not (service.env/test? service-map)))
       (http/stop service))
-    (logger/log! {:level :info, :id ::pedestal-disconnect}
-                 (disconn-msg service-map))
+    (do (println (disconn-msg service-map)) (flush))
     (assoc this :service nil)))
 
 (defn new-pedestal
@@ -43,11 +41,11 @@
 
 (defn- conn-msg
   [{:keys [io.pedestal.http/port]}]
-  (format ">>> Starting pedestal service on port :%s" port))
+  (format "\n>>> Starting pedestal service on port :%s" port))
 
 (defn- disconn-msg
   [{:keys [io.pedestal.http/port]}]
-  (format ">>> Stopping pedestal service on port :%s" port))
+  (format "\n>>> Stopping pedestal service on port :%s" port))
 
 (defn repo->interceptor
   [repo]
