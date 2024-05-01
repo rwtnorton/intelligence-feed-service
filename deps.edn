@@ -12,7 +12,7 @@
  :paths ["src" "resources"]
 
  :aliases
- {:dev          {:extra-paths ["test"]
+ {:dev          {:extra-paths ["test" "dev"]
                  :extra-deps  {mockery/mockery {:mvn/version "0.1.4"}}}
   :test         {:extra-paths ["test"]
                  :extra-deps  {lambdaisland/kaocha           {:mvn/version "1.88.1376"}

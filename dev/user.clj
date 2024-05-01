@@ -1,11 +1,11 @@
 (ns user
-  (:require [reloaded.repl :as rr]
+  (:require [reloaded.repl :as rr :refer [go stop start]]
             [intelligence-feed-service.system :as service.system]))
 
 (rr/set-init! (fn []
                 (service.system/system :dev)))
 
 (comment
-  (rr/go)
-  (rr/stop)
+  (go)
+  (stop)
   ,)
