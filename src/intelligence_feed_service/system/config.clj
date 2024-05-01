@@ -1,14 +1,12 @@
 (ns intelligence-feed-service.system.config
   (:require [clojure.java.io :as io]
-            [clojure.edn :as edn]))
+            [config.core :refer [load-env]]))
 
 (defn get-config
   ([src]
-   (if-let [path (io/resource src)]
-     (-> path
-         (slurp)
-         (edn/read-string))
+   (if (io/resource src)
+     (load-env src)
      (throw (ex-info (format "bad config: %s" src)
                      {:src src}))))
   ([]
-   (get-config "config.edn")))
+   (load-env)))

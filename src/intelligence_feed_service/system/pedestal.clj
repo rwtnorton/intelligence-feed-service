@@ -3,8 +3,7 @@
             [io.pedestal.http :as http]
             [io.pedestal.interceptor :as interceptor]
             [intelligence-feed-service.system.pedestal.env :as service.env]
-            [intelligence-feed-service.system.pedestal.http :as service.http]
-            [taoensso.telemere :as logger]))
+            [intelligence-feed-service.system.pedestal.http :as service.http]))
 
 (declare conn-msg
          disconn-msg

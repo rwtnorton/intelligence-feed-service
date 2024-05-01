@@ -3,7 +3,6 @@
             [clojure.tools.cli :as cli :refer [parse-opts]]
             [intelligence-feed-service.system :as sys]
             [intelligence-feed-service.system.pedestal.env :as env]
-            ;; [markets.web :as web]
             [reloaded.repl :refer [;system
                                    ;init
                                    ;start
@@ -26,17 +25,14 @@
                 ;; arguments
                 summary
                 errors]} (parse-opts args cli-opts)
-        {:keys [config
-                help
+        {:keys [help
                 env]}    options
         env'             (keyword env)]
     (when help
       (usage! summary))
     (when errors
       (die! summary errors))
-    (prn :env env')
-    (prn :config config)
-    (run-for-env env' config)))
+    (run-for-env env')))
 
 (defn- exit!
   [n]
@@ -62,7 +58,12 @@
              "Usage: java -jar intelligence-feed-service.jar [options]"
              ""
              "Options:"
-             summary]))
+             summary
+             "Env vars:"
+             "  * config      : specify a different config EDN file"
+             "                        [default: 'config.edn']"
+             "  * server_port : use different port for API"
+             "                        [default: 8080]"]))
 
 (defn- parse-env
   [s]
@@ -75,8 +76,6 @@
 
 (def cli-opts
   [["-h" "--help" "prints this usage text and exits"]
-   ["-C" "--config CONFIG" "configuration EDN file/resource"
-    :default "config.edn"]
    (let [envs (->> env/allowed-envs
                    (sort)
                    (mapv name))]
@@ -87,7 +86,7 @@
                  (format "Must be one of: %s" envs)]])])
 
 (defn- run-for-env
-  [env & optionals]
-  (let [args (into [env] optionals)]
+  [env]
+  (let [args [env]]
     (reloaded.repl/set-init! #(apply sys/system args)))
   (go))

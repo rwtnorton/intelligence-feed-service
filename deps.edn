@@ -3,6 +3,7 @@
   io.pedestal/pedestal.service {:mvn/version "0.7.0-beta-1"}
   io.pedestal/pedestal.route   {:mvn/version "0.7.0-beta-1"}
   io.pedestal/pedestal.jetty   {:mvn/version "0.7.0-beta-1"}
+  yogthos/config               {:mvn/version "1.2.0"}
   org.clojure/tools.cli        {:mvn/version "1.1.230"}
   reloaded.repl/reloaded.repl  {:mvn/version "0.2.4"}
   com.taoensso/telemere        {:mvn/version "1.0.0-beta5"}

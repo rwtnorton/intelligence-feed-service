@@ -4,6 +4,6 @@
 
 (deftest system-test
   (testing "happy path"
-    (let [sys (sut/system :test "config.edn")]
-      (is (pos-int? (get-in sys [:config :web :port])))
+    (let [sys (sut/system :test)]
+      (is (pos-int? (get-in sys [:config :server-port])))
       (is (= :test (get-in sys [:config :env]))))))

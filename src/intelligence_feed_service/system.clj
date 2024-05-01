@@ -5,22 +5,16 @@
             [intelligence-feed-service.web :as web]
             [io.pedestal.http :as http]))
 
-(defn- resolve-config
-  [args]
-  (if (seq args)
-    (apply config/get-config args)
-    (config/get-config)))
-
 (defn- refine-config
   [cfg env]
-  (let [port (get-in cfg [:web :port])]
+  (let [port (get-in cfg [:server-port])]
     (-> cfg
         ;; Unconditonally force our given env.
         (assoc :env env)
 
         ;; Populate routes and port if not provided.
         (merge {::http/routes web/routes
-                ::http/port port}))))
+                ::http/port   port}))))
 
 (defn- sub-systems
   [cfg env]
@@ -46,9 +40,8 @@
                     (Thread. (down-fn env sys))))
 
 (defn system
-  [env & args]
-  (prn :env env :args args :lol component/system-map)
-  (let [cfg     (resolve-config args)
+  [env]
+  (let [cfg     (config/get-config)
         sub-sys (sub-systems cfg env)
         sys     (apply component/system-map (mapcat into sub-sys))]
     (add-shutdown-hook env sys)

@@ -9,13 +9,13 @@
     (is (= [{:foo :bar}
             {:baz :quux}]
            #_{:clj-kondo/ignore [:unresolved-symbol]}
-           (mockery/with-mocks [slurp-mock
-                                {:target :clojure.core/slurp
-                                 :return (constantly
-                                          "[{:foo :bar} {:baz :quux}]")}
-                                io-resource-mock
+           (mockery/with-mocks [io-resource-mock
                                 {:target :clojure.java.io/resource
-                                 :return (constantly :totally-a-resource)}]
+                                 :return :totally-a-resource}
+                                load-env-mock
+                                {:target :config.core/load-env
+                                 :return (constantly
+                                          [{:foo :bar} {:baz :quux}])}]
              (config/get-config :some-resource)))))
   (testing "when given a bad resource"
     (is (thrown-with-msg?
@@ -27,5 +27,4 @@
                                :return (constantly nil)}]
            (config/get-config :some-thing-else)))))
   (testing "without mocks"
-    (is (= 8080
-           (get-in (config/get-config) [:web :port])))))
+    (is (pos-int? (get-in (config/get-config) [:server-port])))))
