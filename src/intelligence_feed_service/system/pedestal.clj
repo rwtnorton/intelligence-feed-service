@@ -28,7 +28,8 @@
   (stop [this]
     (let [test? (service.env/test? service-map)]
       (when-not test?
-        (do (println (disconn-msg service-map)) (flush)))
+        (println (disconn-msg service-map))
+        (flush))
       (when (and service (not test?))
         (http/stop service)))
     (assoc this :service nil)))
