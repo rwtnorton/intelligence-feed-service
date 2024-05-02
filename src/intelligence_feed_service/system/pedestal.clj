@@ -26,10 +26,11 @@
                :service-map m
                :repo r))))
   (stop [this]
-    (when (and service
-               (not (service.env/test? service-map)))
-      (http/stop service))
-    (do (println (disconn-msg service-map)) (flush))
+    (let [test? (service.env/test? service-map)]
+      (when-not test?
+        (do (println (disconn-msg service-map)) (flush)))
+      (when (and service (not test?))
+        (http/stop service)))
     (assoc this :service nil)))
 
 (defn new-pedestal
