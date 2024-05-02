@@ -1,7 +1,6 @@
 (ns intelligence-feed-service.system
   (:require [com.stuartsierra.component :as component]
-            [intelligence-feed-service.importer.json-file-importer :as json.importer]
-            [intelligence-feed-service.importer :as base.importer]
+            [intelligence-feed-service.importer.registry :as importer.registry]
             [intelligence-feed-service.system.config :as config]
             [intelligence-feed-service.system.importer :as importer]
             [intelligence-feed-service.system.pedestal :as pedestal]
@@ -55,8 +54,7 @@
 
 (defn system
   [env]
-  (logger/log! {:level :debug, :id ::importer-dispatch-methods}
-               (keys (methods base.importer/kind->importer)))
+  (importer.registry/report-registered-methods)
   (let [cfg     (config/get-config)
         sub-sys (sub-systems cfg env)
         sys     (apply component/system-map (mapcat into sub-sys))]
