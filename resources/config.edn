@@ -1,1 +1,3 @@
-{:server-port 8080}
+{:server-port 8080
+ :importer {:kind :json-file-importer
+            :args ["indicators.json"]}}

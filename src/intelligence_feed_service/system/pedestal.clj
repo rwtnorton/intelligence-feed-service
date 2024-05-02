@@ -9,9 +9,9 @@
          disconn-msg
          repo->interceptor)
 
-(defrecord Pedestal [service-map
-                     service
-                     repo]
+(defrecord PedestalSystem [service-map
+                           service
+                           repo]
   component/Lifecycle
   (start [this]
     (if service
@@ -34,11 +34,11 @@
         (http/stop service)))
     (assoc this :service nil)))
 
-(defn new-pedestal
+(defn new-pedestal-system
   ([{:keys [env port]}]
-   (map->Pedestal {:service-map {:env env, ::http/port port}}))
+   (map->PedestalSystem {:service-map {:env env, ::http/port port}}))
   ([]
-   (map->Pedestal {})))
+   (map->PedestalSystem {})))
 
 (defn- conn-msg
   [{:keys [io.pedestal.http/port]}]
