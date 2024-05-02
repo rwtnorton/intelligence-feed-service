@@ -1,4 +1,4 @@
-(ns intelligence-feed-service.importer.json_file_importer
+(ns intelligence-feed-service.importer.json-file-importer
   (:require [intelligence-feed-service.importer :as importer]
             [clojure.java.io :as io]
             [cheshire.core :as json]))

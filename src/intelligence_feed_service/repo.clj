@@ -1,6 +1,5 @@
 (ns intelligence-feed-service.repo
   (:require [clojure.zip :as zip]
-            [clojure.walk :as walk]
             [clojure.set :as set]))
 
 (defrecord DocumentsRepo [documents
@@ -14,17 +13,13 @@
 
 (defn- coll-zipper
   [v]
-  (zip/zipper coll? seq (fn [node kids] (vec kids)) v))
+  (zip/zipper coll? seq (fn [_node kids] (vec kids)) v))
 
 (defn zipper->locations
   [z]
   (->> z
        (iterate (fn [loc] (zip/next loc)))
        (take-while (complement zip/end?))))
-
-(defn key-if-map-value
-  [loc]
-  )
 
 (defn ancestors-at
   [loc]
@@ -81,7 +76,6 @@
                   acc)))
             {}
             scalar-map-val-locs)))
-
 
 (defn- merge-attr-lookups*
   [lookup1 lookup2]
