@@ -2,12 +2,17 @@
   (:require [clojure.zip :as zip]
             [clojure.set :as set]))
 
+(declare map->attr-lookup
+         merge-attr-lookups)
+
 (defrecord DocumentsRepo [documents
                           lookup-by-attr])
 
 (defn new-documents-repo
   [docs]
-  (let [lookup {}]
+  ;; without lookups:  235 MiB
+  ;; with lookups:     635 MiB
+  (let [lookup (mapv map->attr-lookup (take 100 docs))]
     (map->DocumentsRepo {:documents docs
                          :lookup-by-attr lookup})))
 
