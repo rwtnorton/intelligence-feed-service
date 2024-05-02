@@ -6,7 +6,7 @@
 
 (defrecord JsonFileImporter [path]
   importer/Importer
-  (import! [this]
+  (import! [_this]
     (try
       (logger/log! {:level :info, :id ::json-file-importer-import!}
                    (format "importing from file: %s" path))

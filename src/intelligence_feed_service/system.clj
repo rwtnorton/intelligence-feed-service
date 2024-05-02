@@ -6,8 +6,7 @@
             [intelligence-feed-service.system.pedestal :as pedestal]
             [intelligence-feed-service.system.repo :as repo]
             [intelligence-feed-service.web :as web]
-            [io.pedestal.http :as http]
-            [taoensso.telemere :as logger]))
+            [io.pedestal.http :as http]))
 
 (defn- refine-config
   [cfg env]
@@ -36,9 +35,7 @@
    (component/using (pedestal/new-pedestal-system)
                     {:service-map :config
                      ;; :repo        :repo
-                     })
-   })
-
+                     })})
 (defn- down-fn
   [env sys]
   (fn []

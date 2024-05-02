@@ -8,6 +8,7 @@
               list here, all participants should be honored.
               Then, usage should just be `require`-ing this registry.
   "
+  #_{:clj-kondo/ignore [:unused-namespace]}
   (:require [intelligence-feed-service.importer :as base.importer]
             [intelligence-feed-service.importer.json-file-importer :as json.importer]
             [taoensso.telemere :as logger]))

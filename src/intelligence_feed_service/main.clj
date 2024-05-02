@@ -3,7 +3,7 @@
             [clojure.tools.cli :as cli :refer [parse-opts]]
             [intelligence-feed-service.system :as sys]
             [intelligence-feed-service.system.pedestal.env :as env]
-            [reloaded.repl :refer [     ;system
+            [reloaded.repl :refer [;system
                                         ;init
                                         ;start
                                         ;stop
