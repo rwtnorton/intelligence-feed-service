@@ -7,7 +7,7 @@
 (defn new-documents-repo
   [docs]
   ;; without lookups:  235 MiB
-  ;; with lookups:     635 MiB
+  ;; with lookups:     935 MiB
   (let [lookup (if (seq docs)
                  (->> docs
                       (map-indexed (fn [i d] (ave-lookup/map->ave-lookup d i)))
@@ -15,6 +15,15 @@
                  {})]
     (map->DocumentsRepo {:documents docs
                          :ave-lookup lookup})))
+
+(defn find-document-by-id
+  [{:keys [ave-lookup
+           documents]
+    :as   _repo}
+   id]
+  (let [doc-index (first (get-in ave-lookup [[:id] id]))]
+    (when (int? doc-index)
+      (nth documents doc-index nil))))
 
 (comment
   (require '[intelligence-feed-service.importer.registry :as registry])
@@ -28,7 +37,7 @@
   (def repo (new-documents-repo docs))
   (def lookups (vec (map-indexed (fn [i d] (ave-lookup/map->ave-lookup d i)) docs)))
   (doseq [[i lu] (->> (map-indexed vector lookups))]
-    (let [;; body (with-out-str (clojure.pprint/pprint lu))
+    (let [ ;; body (with-out-str (clojure.pprint/pprint lu))
           filename (format "lookup-%d.edn" i)]
       (println filename) (flush)
       (pprint/pprint lu (clojure.java.io/writer filename))

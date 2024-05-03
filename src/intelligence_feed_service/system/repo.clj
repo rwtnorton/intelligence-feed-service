@@ -9,8 +9,8 @@
     (let [underlying-importer (:importer importer)
           docs (.import! underlying-importer)
           repo (repo/new-documents-repo docs)]
-      (prn :found-docs-count (count docs))
-      (prn :found-docs-type (type docs))
+      ;; (prn :found-docs-count (count docs))
+      ;; (prn :found-docs-type (type docs))
       (assoc this :repo repo)))
   (stop [this]
     (assoc this :repo nil)))

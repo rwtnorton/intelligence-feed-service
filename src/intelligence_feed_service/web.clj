@@ -1,5 +1,6 @@
 (ns intelligence-feed-service.web
-  (:require [io.pedestal.http :as http]))
+  (:require [io.pedestal.http :as http]
+            [intelligence-feed-service.repo :as doc.repo]))
 
 (def api-interceptors
   [http/json-body])
@@ -14,13 +15,9 @@
 
 (defn find-document-by-id
   [{:keys [repo path-params] :as _request}]
-  (let [{:keys [id]}        path-params
-        documents-repo      (:repo repo)
-        {:keys [ave-lookup
-                documents]} documents-repo
-        doc-index           (first (get-in ave-lookup [[:id] id]))
-        doc                 (when (int? doc-index)
-                              (nth documents doc-index nil))]
+  (let [documents-repo (:repo repo)
+        {:keys [id]}   path-params
+        doc            (doc.repo/find-document-by-id documents-repo id)]
     (if-not doc
       (not-found)
       (http/json-response doc))))
