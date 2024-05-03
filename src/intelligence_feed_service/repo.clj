@@ -25,6 +25,10 @@
     (when (int? doc-index)
       (nth documents doc-index nil))))
 
+(defn get-all-documents
+  [{:keys [documents] :as _repo}]
+  documents)
+
 (comment
   (require '[intelligence-feed-service.importer.registry :as registry])
   (require '[intelligence-feed-service.importer :as importer])

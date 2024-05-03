@@ -22,10 +22,21 @@
       (not-found)
       (http/json-response doc))))
 
+(defn find-documents
+  [{:keys [repo query-params] :as _request}]
+  (let [documents-repo (:repo repo)
+        doc-type       (:type query-params)
+        _              (do (prn :doc-type doc-type) (flush))
+        docs           (doc.repo/get-all-documents documents-repo)]
+    (http/json-response docs)))
+
 (def routes
   #{["/health"
      :get (conj api-interceptors `health)
      :route-name ::health]
     ["/indicators/:id"
      :get (conj api-interceptors `find-document-by-id)
-     :route-name ::find-document-by-id]})
+     :route-name ::find-document-by-id]
+    ["/indicators"
+     :get (conj api-interceptors `find-documents)
+     :route-name ::find-documents]})
