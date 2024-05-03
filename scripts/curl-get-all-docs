@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -eu
+
+cd "$(dirname $0)"/..
+
+server_port="${server_port:-8080}"
+
+exec curl -v "$@" "http://localhost:${server_port}/indicators"

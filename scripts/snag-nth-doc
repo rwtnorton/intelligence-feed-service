@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+set -eu
+
+cd "$(dirname $0)"/..
+
+if [ $# -ne 1 ]; then
+    1>&2 echo "missing index argument"
+    1>&2 echo "usage: $0 index"
+    exit 1
+fi
+nth_index="$1"
+export nth_index
+
+exec clojure -A:dev -e '
+(ns foo
+  (:require [cheshire.core :as json]
+            [clojure.pprint :as pprint]
+            [clojure.java.io :as io]))
+(let [filename "resources/indicators.json"
+      nth-index (Integer/parseInt (System/getenv "nth_index"))]
+  ;; (prn :n nth-index)
+  (-> (json/parse-stream (io/reader filename) true)
+      (nth nth-index)
+      (pprint/pprint)))
+'

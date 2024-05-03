@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+set -eu
+
+cd "$(dirname $0)"/..
+
+server_port="${server_port:-8080}"
+
+if [ $# -ne 1 ]; then
+    1>&2 echo "missing type argument"
+    1>&2 echo "usage: $0 type"
+    exit 1
+fi
+doc_type="$1"
+# doc_type='CVE'
+
+exec curl -v "$@" "http://localhost:${server_port}/indicators?type=$doc_type"

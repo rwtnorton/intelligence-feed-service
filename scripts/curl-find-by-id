@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+set -eu
+
+cd "$(dirname $0)"/..
+
+server_port="${server_port:-8080}"
+
+doc_id='5b3af7d85996b430b393f3d6'
+if [ $# -eq 1 ]; then
+    doc_id="$1"
+    shift
+fi
+
+exec curl -v "$@" "http://localhost:${server_port}/indicators/${doc_id}"
