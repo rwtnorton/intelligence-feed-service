@@ -4,17 +4,20 @@
 (defrecord DocumentsRepo [documents
                           ave-lookup])
 
+(defn docs->ave-lookup
+  [docs]
+  (if (seq docs)
+    (->> docs
+         (map-indexed (fn [i d] (ave-lookup/map->ave-lookup d i)))
+         (apply ave-lookup/merge-ave-lookups))
+    {}))
+
 (defn new-documents-repo
   [docs]
   ;; without lookups:  235 MiB
   ;; with lookups:     935 MiB
-  (let [lookup (if (seq docs)
-                 (->> docs
-                      (map-indexed (fn [i d] (ave-lookup/map->ave-lookup d i)))
-                      (apply ave-lookup/merge-ave-lookups))
-                 {})]
-    (map->DocumentsRepo {:documents docs
-                         :ave-lookup lookup})))
+  (map->DocumentsRepo {:documents  docs
+                       :ave-lookup (docs->ave-lookup docs)}))
 
 (defn find-document-by-id
   [{:keys [ave-lookup
