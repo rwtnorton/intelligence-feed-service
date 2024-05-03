@@ -1,103 +1,20 @@
 (ns intelligence-feed-service.repo
-  (:require [clojure.zip :as zip]
-            [clojure.set :as set]))
-
-(declare map->attr-lookup
-         merge-attr-lookups)
+  (:require [intelligence-feed-service.ave-lookup :as ave-lookup]))
 
 (defrecord DocumentsRepo [documents
-                          lookups
-                          attr-lookup])
+                          ave-lookup])
 
 (defn new-documents-repo
   [docs]
   ;; without lookups:  235 MiB
   ;; with lookups:     635 MiB
-  (let [lookups (vec (map-indexed (fn [i d] (map->attr-lookup d i)) docs))
-        lookup (merge-attr-lookups lookups)]
+  (let [lookup (if (seq docs)
+                 (->> docs
+                      (map-indexed (fn [i d] (ave-lookup/map->ave-lookup d i)))
+                      (apply ave-lookup/merge-ave-lookups))
+                 {})]
     (map->DocumentsRepo {:documents docs
-                         :attr-lookup lookup})))
-
-(defn- coll-zipper
-  [v]
-  (zip/zipper coll? seq (fn [_node kids] (vec kids)) v))
-
-(defn zipper->locations
-  [z]
-  (->> z
-       (iterate (fn [loc] (zip/next loc)))
-       (take-while (complement zip/end?))))
-
-(defn ancestors-at
-  [loc]
-  (->> loc
-       (iterate (fn [x] (zip/up x)))
-       (take-while (complement nil?))))
-
-(defn key-path-at
-  "Walks up from loc, returning vector of keys encountered."
-  [loc]
-  (->> (ancestors-at loc)
-       (keep (fn [loc]
-               (let [v (zip/node loc)]
-                 (when (map-entry? v)
-                   (key v)))))
-       reverse
-       vec))
-
-(def scalar? (complement coll?))
-
-(defn locations->scalar-map-val-locs
-  [locs]
-  (->> locs
-       (filter (fn [loc]
-                 (let [v (zip/node loc)]
-                   (when (scalar? v)
-                     (when-let [parent (zip/up loc)]
-                       (let [pv (zip/node parent)]
-                         (when (and (map-entry? pv)
-                                    (= v (val pv)))
-                           loc)))))))))
-
-;;
-;; An `attr-lookup` is a three-tier map:
-;;  - tier 1 : key-path (vector of keywords) mapping to ...
-;;  - tier 2 : "scalar" value arrived at via key-path, mapping to ...
-;;  - tier 3 : set of indexes into vector of maps in which the above occurred.
-;;
-
-(defn map->attr-lookup
-  [m token]
-  (let [z (coll-zipper m)
-        locs (zipper->locations z)
-        scalar-map-val-locs (locations->scalar-map-val-locs locs)]
-    (reduce (fn [acc loc]
-              (let [scalar-val (zip/node loc)
-                    key-path (key-path-at loc)]
-                (if (seq key-path)
-                  (update-in acc [key-path scalar-val]
-                             (fn [v]
-                               (if (nil? v)
-                                 #{token}
-                                 (conj v token))))
-                  acc)))
-            {}
-            scalar-map-val-locs)))
-
-(defn- merge-attr-lookups*
-  [lookup1 lookup2]
-  (reduce-kv (fn [acc key-path scalar-map]
-               (update-in acc [key-path]
-                          (fn [m]
-                            (merge-with set/union scalar-map m))))
-             lookup1
-             lookup2))
-
-(defn merge-attr-lookups
-  [lookup1 & other-lookups]
-  (reduce merge-attr-lookups*
-          lookup1
-          other-lookups))
+                         :ave-lookup lookup})))
 
 (comment
   (require '[intelligence-feed-service.importer.registry :as registry])
@@ -107,8 +24,7 @@
                                           :args ["indicators.json"]}))
   (def docs (.import! importer))
   (def repo (new-documents-repo docs))
-  ;; (def lookups (mapv map->attr-lookup docs))
-  (def lookups (vec (map-indexed (fn [i d] (map->attr-lookup d i)) docs)))
+  (def lookups (vec (map-indexed (fn [i d] (ave-lookups/map->ave-lookup d i)) docs)))
   (doseq [[i lu] (->> (map-indexed vector lookups) )]
     (let [ ;; body (with-out-str (clojure.pprint/pprint lu))
           filename (format "lookup-%d.edn" i)]
@@ -117,5 +33,5 @@
       ;; (let [body (prn-str lu)]
       ;;   (spit filename body))
       ))
-  (clojure.pprint/pprint (:attr-lookup repo) (clojure.java.io/writer "lookup-merged"))
+  (clojure.pprint/pprint (:ave-lookup repo) (clojure.java.io/writer "lookup-merged"))
   ,)
