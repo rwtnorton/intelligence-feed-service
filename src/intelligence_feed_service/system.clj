@@ -34,8 +34,7 @@
    :pedestal
    (component/using (pedestal/new-pedestal-system)
                     {:service-map :config
-                     ;; :repo        :repo
-                     })})
+                     :repo        :repo})})
 (defn- down-fn
   [env sys]
   (fn []
