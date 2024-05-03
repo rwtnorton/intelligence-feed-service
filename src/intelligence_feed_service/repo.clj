@@ -19,19 +19,20 @@
 (comment
   (require '[intelligence-feed-service.importer.registry :as registry])
   (require '[intelligence-feed-service.importer :as importer])
+  (require '[clojure.pprint :as pprint])
+  (require '[clojure.java.io :as io])
   (registry/report-registered-methods)
   (def importer (importer/kind->importer {:kind :json-file-importer
                                           :args ["indicators.json"]}))
   (def docs (.import! importer))
   (def repo (new-documents-repo docs))
-  (def lookups (vec (map-indexed (fn [i d] (ave-lookups/map->ave-lookup d i)) docs)))
-  (doseq [[i lu] (->> (map-indexed vector lookups) )]
-    (let [ ;; body (with-out-str (clojure.pprint/pprint lu))
+  (def lookups (vec (map-indexed (fn [i d] (ave-lookup/map->ave-lookup d i)) docs)))
+  (doseq [[i lu] (->> (map-indexed vector lookups))]
+    (let [;; body (with-out-str (clojure.pprint/pprint lu))
           filename (format "lookup-%d.edn" i)]
       (println filename) (flush)
-      (clojure.pprint/pprint lu (clojure.java.io/writer filename))
+      (pprint/pprint lu (clojure.java.io/writer filename))
       ;; (let [body (prn-str lu)]
       ;;   (spit filename body))
       ))
-  (clojure.pprint/pprint (:ave-lookup repo) (clojure.java.io/writer "lookup-merged"))
-  ,)
+  (pprint/pprint (:ave-lookup repo) (io/writer "lookup-merged")))

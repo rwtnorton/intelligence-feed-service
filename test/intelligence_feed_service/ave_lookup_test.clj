@@ -1,7 +1,6 @@
 (ns intelligence-feed-service.ave-lookup-test
   (:require [clojure.test :refer [deftest is testing]]
             [intelligence-feed-service.ave-lookup :as sut]
-            [clojure.set :as set]
             [clojure.zip :as zip]))
 
 ;; (defn next-until=
@@ -139,8 +138,8 @@
       (is (= 1
              (zip/node loc)))
       (is (= [:stuff :nums :ichi]
-               (->> loc
-                    sut/key-path-at)))))
+             (->> loc
+                  sut/key-path-at)))))
   (testing "compound map/vec jumble"
     (let [loc (->> (sut/coll-zipper {:stuff [{:nums [{:ichi 1, :ni 2}]}]})
                    zip/next ;; at [:stuff ...]
@@ -260,8 +259,7 @@
                :industries         []}
           locs (->> (sut/coll-zipper doc)
                     sut/zipper->locations)]
-      (is (= #{
-               "Some active DiamondFox domains generated via DGA for 20180703."
+      (is (= #{"Some active DiamondFox domains generated via DGA for 20180703."
                "DiamondFox" "DGA"
                1
                "Active DiamondFox DGA(s) for 20180703"
@@ -291,8 +289,7 @@
                "green"
                "MalwarePatrol"
                "adversary-val"
-               false
-               }
+               false}
              (->> locs
                   sut/locations->leaf-locs
                   (map zip/node)
