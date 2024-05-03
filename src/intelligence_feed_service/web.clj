@@ -47,9 +47,9 @@
 
 (defn search-documents
   [{:keys [repo json-params] :as _request}]
-  (prn :req-keys (-> _request keys sort)) (flush)
+  ;; (prn :req-keys (-> _request keys sort)) (flush)
   (let [{:keys [field value]} json-params]
-    (prn :field field :value value)
+    ;; (prn :field field :value value)
     (if (or (not (valid-search-field? field))
             (nil? value))
       (bad-request)
