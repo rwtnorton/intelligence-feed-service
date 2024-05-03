@@ -34,7 +34,15 @@
            documents]
     :as   _repo}
    doc-type]
-  (let [doc-indexes (sort (get-in ave-lookup [[:indicators :type] doc-type]))]
+  (let [doc-indexes (sort (get-in ave-lookup [[:indicators :type] doc-type] []))]
+    (mapv (partial nth documents) doc-indexes)))
+
+(defn search-documents
+  [{:keys [ave-lookup
+           documents]
+    :as   _repo}
+   key-path target]
+  (let [doc-indexes (sort (get-in ave-lookup [key-path target] []))]
     (mapv (partial nth documents) doc-indexes)))
 
 (comment
