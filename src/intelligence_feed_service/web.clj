@@ -59,18 +59,6 @@
             (doc.repo/search-documents key-path value)
             http/json-response)))))
 
-;; (def search-documents-handler
-;;   {:name ::search-documents-handler
-;;    :leave (fn [context]
-;;             (let [{:keys [request]} context]
-;;               (prn :req-keys (-> request keys sort))
-;;               (prn :json-params (:json-params request))
-;;               (flush)
-;;               (assoc context
-;;                      :response {:status 200
-;;                                 :headers {"Content-Type" "application/json"}
-;;                                 :body {:foo :butts}})))})
-
 (def routes
   #{["/health"
      :get (conj api-interceptors `health)
@@ -83,8 +71,4 @@
      :route-name ::find-document-by-id]
     ["/indicators"
      :get (conj api-interceptors `find-documents)
-     :route-name ::find-documents]
-    ;; ["/indicators/search"
-    ;;  :post (conj api-interceptors `search-documents)
-    ;;  :route-name ::search-documents]
-    })
+     :route-name ::find-documents]})

@@ -57,11 +57,7 @@
   (def repo (new-documents-repo docs))
   (def lookups (vec (map-indexed (fn [i d] (ave-lookup/map->ave-lookup d i)) docs)))
   (doseq [[i lu] (->> (map-indexed vector lookups))]
-    (let [ ;; body (with-out-str (clojure.pprint/pprint lu))
-          filename (format "lookup-%d.edn" i)]
+    (let [filename (format "lookup-%d.edn" i)]
       (println filename) (flush)
-      (pprint/pprint lu (clojure.java.io/writer filename))
-      ;; (let [body (prn-str lu)]
-      ;;   (spit filename body))
-      ))
+      (pprint/pprint lu (clojure.java.io/writer filename))))
   (pprint/pprint (:ave-lookup repo) (io/writer "lookup-merged")))
