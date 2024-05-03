@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+set -eu
+
+cd "$(dirname $0)"/../..
+
+service_dir='intelligence-feed-service'
+
+tar cvf - \
+    "$service_dir/.dir-locals.el" \
+    "$service_dir/Dockerfile" \
+    "$service_dir/Makefile" \
+    "$service_dir/README.md" \
+    "$service_dir/VERSION" \
+    "$service_dir/build.clj" \
+    "$service_dir/deps.edn" \
+    "$service_dir/dev" \
+    "$service_dir/resources" \
+    "$service_dir/run-service-in-docker" \
+    "$service_dir/scripts" \
+    "$service_dir/src" \
+    "$service_dir/test" \
+    "$service_dir/tests.edn" \
+    | gzip -c9 >~/"${service_dir}.tar.gz"
