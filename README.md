@@ -75,3 +75,13 @@ $ make preflight-quick
 ```
 $ make preflight-full
 ```
+
+# Roadmap for future development
+
+- incorporate `clojure.spec` (in web layer and repo layer)
+- add suppor for Swagger / OpenAPI online documentation for routes
+- consider pivoting to `polylith`
+
+# Author
+
+Richard W. Norton (`rwtnorton@gmail.com`)
