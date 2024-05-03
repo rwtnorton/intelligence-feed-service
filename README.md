@@ -29,6 +29,16 @@ Build and run in Docker:
 $ make uber docker-build docker-run
 ```
 
+#### Run from nREPL
+
+Perform a `cider-jack-in-clj` (or equivalent for non-Emacs setups) and then
+you will be in `dev/user.clj`, where you can start/stop/restart the system:
+```
+user> (go)
+user> ;; ... doing amazing things ...
+user> (stop)
+```
+
 ### Linting
 
 ```
