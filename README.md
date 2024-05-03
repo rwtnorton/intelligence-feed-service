@@ -8,14 +8,14 @@ REST microservice that provides search capabilities on AlienVault OTX intelligen
 
 Build uberjar and run locally:
 ```
-$ make uber run
+$ make clean uber run
 ```
 
 Or just run:
 ```
+$ make clean uber && ./scripts/run --env dev
 $ ./scripts/run --help
 $ ./scripts/run --env test
-$ make clean uber && ./scripts/run --env dev
 
 ### use a different config file:
 $ config=resources/dat-other-config.edn ./scripts/run --env prod
