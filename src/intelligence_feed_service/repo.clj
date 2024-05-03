@@ -96,3 +96,21 @@
   (reduce merge-attr-lookups*
           lookup1
           other-lookups))
+
+(comment
+  (require '[intelligence-feed-service.importer.registry :as registry])
+  (require '[intelligence-feed-service.importer :as importer])
+  (registry/report-registered-methods)
+  (def importer (importer/kind->importer {:kind :json-file-importer
+                                          :args ["indicators.json"]}))
+  (def docs (.import! importer))
+  (def lookups (mapv map->attr-lookup docs))
+  (doseq [[i lu] (->> (map-indexed vector lookups) (take 2))]
+    (let [;; body (with-out-str (clojure.pprint/pprint lu))
+          filename (format "lookup-%d.edn" i)]
+      (println filename) (flush)
+      (clojure.pprint/pprint lu (clojure.java.io/writer filename))
+      ;; (let [body (prn-str lu)]
+      ;;   (spit filename body))
+      ))
+  ,)
