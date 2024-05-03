@@ -29,6 +29,14 @@
   [{:keys [documents] :as _repo}]
   documents)
 
+(defn get-documents-by-type
+  [{:keys [ave-lookup
+           documents]
+    :as   _repo}
+   doc-type]
+  (let [doc-indexes (sort (get-in ave-lookup [[:indicators :type] doc-type]))]
+    (mapv (partial nth documents) doc-indexes)))
+
 (comment
   (require '[intelligence-feed-service.importer.registry :as registry])
   (require '[intelligence-feed-service.importer :as importer])

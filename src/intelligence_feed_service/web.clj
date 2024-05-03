@@ -25,10 +25,14 @@
 (defn find-documents
   [{:keys [repo query-params] :as _request}]
   (let [documents-repo (:repo repo)
-        doc-type       (:type query-params)
-        _              (do (prn :doc-type doc-type) (flush))
-        docs           (doc.repo/get-all-documents documents-repo)]
-    (http/json-response docs)))
+        doc-type       (:type query-params)]
+    (if-not doc-type
+      (-> documents-repo
+          doc.repo/get-all-documents
+          http/json-response)
+      (-> documents-repo
+          (doc.repo/get-documents-by-type doc-type)
+          http/json-response))))
 
 (def routes
   #{["/health"
