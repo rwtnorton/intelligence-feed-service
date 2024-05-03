@@ -6,15 +6,17 @@
          merge-attr-lookups)
 
 (defrecord DocumentsRepo [documents
-                          lookup-by-attr])
+                          lookups
+                          attr-lookup])
 
 (defn new-documents-repo
   [docs]
   ;; without lookups:  235 MiB
   ;; with lookups:     635 MiB
-  (let [lookup (mapv map->attr-lookup (take 100 docs))]
+  (let [lookups (vec (map-indexed (fn [i d] (map->attr-lookup d i)) docs))
+        lookup (merge-attr-lookups lookups)]
     (map->DocumentsRepo {:documents docs
-                         :lookup-by-attr lookup})))
+                         :attr-lookup lookup})))
 
 (defn- coll-zipper
   [v]
@@ -61,11 +63,11 @@
 ;; An `attr-lookup` is a three-tier map:
 ;;  - tier 1 : key-path (vector of keywords) mapping to ...
 ;;  - tier 2 : "scalar" value arrived at via key-path, mapping to ...
-;;  - tier 3 : set of maps in which the above occurred.
+;;  - tier 3 : set of indexes into vector of maps in which the above occurred.
 ;;
 
 (defn map->attr-lookup
-  [m]
+  [m token]
   (let [z (coll-zipper m)
         locs (zipper->locations z)
         scalar-map-val-locs (locations->scalar-map-val-locs locs)]
@@ -76,8 +78,8 @@
                   (update-in acc [key-path scalar-val]
                              (fn [v]
                                (if (nil? v)
-                                 #{m}
-                                 (conj v m))))
+                                 #{token}
+                                 (conj v token))))
                   acc)))
             {}
             scalar-map-val-locs)))
@@ -104,13 +106,16 @@
   (def importer (importer/kind->importer {:kind :json-file-importer
                                           :args ["indicators.json"]}))
   (def docs (.import! importer))
-  (def lookups (mapv map->attr-lookup docs))
-  (doseq [[i lu] (->> (map-indexed vector lookups) (take 2))]
-    (let [;; body (with-out-str (clojure.pprint/pprint lu))
+  (def repo (new-documents-repo docs))
+  ;; (def lookups (mapv map->attr-lookup docs))
+  (def lookups (vec (map-indexed (fn [i d] (map->attr-lookup d i)) docs)))
+  (doseq [[i lu] (->> (map-indexed vector lookups) )]
+    (let [ ;; body (with-out-str (clojure.pprint/pprint lu))
           filename (format "lookup-%d.edn" i)]
       (println filename) (flush)
       (clojure.pprint/pprint lu (clojure.java.io/writer filename))
       ;; (let [body (prn-str lu)]
       ;;   (spit filename body))
       ))
+  (clojure.pprint/pprint (:attr-lookup repo) (clojure.java.io/writer "lookup-merged"))
   ,)
