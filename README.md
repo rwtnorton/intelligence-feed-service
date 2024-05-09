@@ -110,8 +110,8 @@ Return all documents matching search criteria.
 # Roadmap for future development
 
 - incorporate `clojure.spec` (in web layer and repo layer)
-- add suppor for Swagger / OpenAPI online documentation for routes
-- consider pivoting to `polylith`
+- add support for Swagger / OpenAPI online documentation for routes
+- ~~consider pivoting to `polylith`~~
 
 # Author
 
