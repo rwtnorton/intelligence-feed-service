@@ -86,6 +86,27 @@ $ make preflight-quick
 $ make preflight-full
 ```
 
+## Endpoints
+
+### GET /health
+
+### GET /indicators/:doc_id
+
+Returns a document by its ID.
+
+### GET /indicators
+
+Return all documents.
+
+### GET /indicators?type=$doc_type
+
+Find documents by their type.
+
+### POST /search
+
+Take search criteria as a JSON document in the body of the HTTP request.
+Return all documents matching search criteria.
+
 # Roadmap for future development
 
 - incorporate `clojure.spec` (in web layer and repo layer)
